@@ -136,15 +136,6 @@ The project uses [MockAPI](https://mockapi.io) as a backend. To point to your ow
 const BASE_URL = "https://YOUR_API_URL/blogs";
 ```
 
-### Changing admin credentials
-
-Edit `src/context/AuthContext.jsx`:
-
-```js
-const ADMIN_EMAIL = "your@email.com";
-const ADMIN_PASSWORD = "yourpassword";
-```
-
 > For production, always validate admin credentials server-side.
 
 ---
@@ -175,10 +166,3 @@ const ADMIN_PASSWORD = "yourpassword";
 
 ---
 
-## 📝 License
-
-MIT — free to use, modify, and distribute.
-
----
-
-Built with ❤️ using React + Tailwind CSS.
