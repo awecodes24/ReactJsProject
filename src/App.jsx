@@ -1,27 +1,68 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+
 import Home from "./pages/Home";
-import Create from "./pages/Create";
-import Search from "./pages/Blog";
-import Edit from "./pages/Edit";
-import SinglePage from "./pages/SinglePage";
-import LearningUseState from "./pages/learningUseState";
-import Register from "./pages/components/Register";
-import ManageBlogs from "./pages/components/ManageBlogs";
+import Explore from "./pages/Explore";
+import SinglePost from "./pages/SinglePost";
+import CreatePost from "./pages/CreatePost";
+import EditPost from "./pages/EditPost";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AdminDashboard from "./pages/AdminDashboard";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="/edit/:id" element={<Edit />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/manage-blog" element={<ManageBlogs />} />
-        <Route path="/blog/:id" element={<SinglePage />} />
-        <Route path="/learning-usestate" element={<LearningUseState />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3500,
+            style: { fontSize: "14px", fontWeight: 500 },
+          }}
+        />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/blog/:id" element={<SinglePost />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Protected: any logged-in user */}
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditPost />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Protected: admin only */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
